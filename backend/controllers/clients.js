@@ -10,11 +10,8 @@ exports.getClient = (req, res, next) => {
 }
 
 exports.postClient = (req, res, next) => {
-    const name = req.body.name;
-    const age =req.body.age;
     res.status(201).json({
-        message: "a client is posted successfully",
-        client :{name : name , age:age}
+        message: "a client is posted successfully"
     })
 }
 

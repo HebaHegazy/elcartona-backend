@@ -2,6 +2,7 @@ const app = require("./backend/app");
 const debug = require("debug")("node-angular");
 const http = require("http");
 
+//check if port is retrieved successfully from environment variables
 const normalizePort = val => {
   var port = parseInt(val, 10);
 
@@ -18,6 +19,7 @@ const normalizePort = val => {
   return false;
 };
 
+// check if there are any errors with creating the server
 const onError = error => {
   if (error.syscall !== "listen") {
     throw error;

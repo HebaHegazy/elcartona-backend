@@ -1,15 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-// const mongoose = require('mongoose');
 const clientRouete = require('./routes/clients');
+const shopRoute = require('./routes/shops');
+const productRoute = require('./routes/products');
+const areaRoute = require('./routes/areas');
+const shopOwnerRoute = require('./routes/shopOwner');
 
 const app = express();
-// mongoose.connect('mongodb://localhost/.....')
-//   .then(() => console.log('Connected to MongoDB...'))
-//   .catch(err => console.error('Could not connect to MongoDB...'));
 
 //Parsing all incoming data to be in json objects forms 
-// app.use(express.json());
 app.use(bodyParser.json()); //application/json
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -28,7 +27,19 @@ app.use((req, res, next) => {
   next();
 });
 
-// Get 'Post || Delete || Get || Put' from /clients
+// 'Get Post || Delete || Get || Put' from /clients
 app.use('/clients', clientRouete);
+
+// 'Get Post || Delete || Get || Put' from /shops
+app.use('/shops', shopRoute);
+
+// 'Get Post || Delete || Get || Put' from /products
+app.use('/products', productRoute);
+
+// 'Get Post || Delete || Get || Put' from /areas
+app.use('/areas', areaRoute);
+
+// 'Get Post || Delete || Get || Put' from /shopOwners
+app.use('/shopOwners', shopOwnerRoute);
 
 module.exports = app;
