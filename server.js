@@ -1,6 +1,7 @@
 const app = require("./backend/app");
 const debug = require("debug")("node-angular");
 const http = require("http");
+const mongoose = require('mongoose');
 
 //check if port is retrieved successfully from environment variables
 const normalizePort = val => {
@@ -51,4 +52,13 @@ app.set("port", port);
 const server = http.createServer(app);
 server.on("error", onError);
 server.on("listening", onListening);
-server.listen(port);
+
+//Connect to ElcartonaShopping Database through mongoose Library
+mongoose.connect('mongodb://localhost/ElcartonaShopping', { useNewUrlParser: true })
+  .then(() => {
+    console.log('Connected to MongoDB...');
+    server.listen(port);
+  })
+  .catch(err => console.error('Could not connect to MongoDB...'));
+
+

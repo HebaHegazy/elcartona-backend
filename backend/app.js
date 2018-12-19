@@ -5,8 +5,8 @@ const shopRoute = require('./routes/shops');
 const productRoute = require('./routes/products');
 const areaRoute = require('./routes/areas');
 const shopOwnerRoute = require('./routes/shopOwner');
-
 const app = express();
+
 
 //Parsing all incoming data to be in json objects forms 
 app.use(bodyParser.json()); //application/json
