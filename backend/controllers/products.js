@@ -1,7 +1,7 @@
 const { Product, validate } = require('../models/product');
 
 exports.getProducts = (req, res, next) => {
-    Product.find().then((products)=>{
+        Product.find().select('-__v').then((products)=>{
         res.status(200).json({
             message: "All products retrieved successfully",
             products: products
@@ -9,11 +9,11 @@ exports.getProducts = (req, res, next) => {
     }).catch(err => res.status(422).json(err.message))
 }
 
-// exports.getProduct = (req, res, next) => {
-//     res.status(200).json({
-//         message: "a Product is retrieved successfully"
-//     })
-// }
+exports.getProduct = (req, res, next) => {
+    res.status(200).json({
+        message: "a Product is retrieved successfully"
+    })
+}
 
 exports.postProduct =  (req, res) => {
     const { error } = validate(req.body);
@@ -33,13 +33,13 @@ exports.postProduct =  (req, res) => {
     }).catch(err => res.status(422).json(err.message));
 }
 
-// exports.updateProduct = (req, res, next) => {
-//     res.status(200).json({
-//         message: "a Product is updated successfully"
-//     })
-// }
-// exports.deleteProduct = (req, res, next) => {
-//     res.status(200).json({
-//         message: "a Product is deleted successfully"
-//     })
-// }
+exports.updateProduct = (req, res, next) => {
+    res.status(200).json({
+        message: "a Product is updated successfully"
+    })
+}
+exports.deleteProduct = (req, res, next) => {
+    res.status(200).json({
+        message: "a Product is deleted successfully"
+    })
+}

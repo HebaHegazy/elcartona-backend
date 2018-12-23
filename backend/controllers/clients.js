@@ -1,24 +1,26 @@
 const { Client, validate } = require('../models/client');
 
-exports.getClients = async (req, res) => {
-    const clients = await Client.find();
-    res.status(200).json({
-        message: "All clients retrieved successfully",
-        clients: clients
-    })
+exports.getClients = (req, res) => {
+    Client.find().select('-__v').then((clients) => {
+        res.status(200).json({
+            message: "All clients retrieved successfully",
+            clients: clients
+        })
+    }).catch(err => res.status(400).json(err.message));
+
 }
-exports.getClient = async (req, res) => {
-    const client = await Client.findById(req.params.id);
+exports.getClient = (req, res) => {
+    Client.findById(req.params.id).select('-__v').then((client) => {
+        if (!client) return res.status(404).send('The client with the given ID was not found.');
+        res.status(200).json({
+            message: "a client is retrieved successfully",
+            client: client
+        })
 
-    if (!client) return res.status(404).send('The client with the given ID was not found.');
-
-    res.status(200).json({
-        message: "a client is retrieved successfully",
-        client: client
-    })
+    }).catch(err => res.status(400).json(err.message));
 }
 
-exports.postClient = async (req, res) => {
+exports.postClient = (req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(422).send(error.details[0].message);
 
@@ -34,21 +36,22 @@ exports.postClient = async (req, res) => {
         phone: req.body.phone,
         email: req.body.email,
         password: req.body.password,
-        cart:req.body.cart
+        cart: req.body.cart
     });
-    client = await client.save();
-    
-    res.status(201).json({
-        message: "a client is posted successfully",
-        client: client
-    })
+    client.save().then((client) => {
+        res.status(201).json({
+            message: "a client is posted successfully",
+            client: client
+        })
+    }).catch(err => res.status(400).json(err.message));
+
 }
 
-exports.updateClient = async (req, res) => {
+exports.updateClient = (req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(422).send(error.details[0].message);
 
-    const client = await Client.findByIdAndUpdate(req.params.id,
+    Client.findByIdAndUpdate(req.params.id,
         {
             fullName: {
                 firstName: req.body.fullName.firstName,
@@ -61,25 +64,26 @@ exports.updateClient = async (req, res) => {
             phone: req.body.phone,
             email: req.body.email,
             password: req.body.password,
-            cart:req.body.cart
-        }, { new: true }); //{new: true} means ---- const Client is the updated one....
+            cart: req.body.cart
+        }, { new: true }) ////{new: true} means ---- const Client is the updated one....
+        .select('-__v').then((client) => {
+            if (!client) return res.status(404).send('The client with the given ID was not found.');
 
-    if (!client) return res.status(404).send('The client with the given ID was not found.');
-
-    res.status(200).json({
-        message: "a client is updated successfully",
-        client: client
-    })
+            res.status(200).json({
+                message: "a client is updated successfully",
+                client: client
+            })
+        }).catch(err => res.status(400).json(err.message));
 }
 
-exports.deleteClient = async (req, res) => {
-    const client = await Client.findByIdAndRemove(req.params.id);
+exports.deleteClient = (req, res) => {
+    Client.findByIdAndRemove(req.params.id).select('-__v').then((client) => {
+        if (!client) return res.status(404).send('The client with the given ID was not found.');
 
-    if (!client) return res.status(404).send('The client with the given ID was not found.');
-
-    res.status(200).json({
-        message: "a client is deleted successfully",
-        client: client
-    })
+        res.status(200).json({
+            message: "a client is deleted successfully",
+            client: client
+        })
+    }).catch(err => res.status(400).json(err.message));
 }
 

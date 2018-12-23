@@ -46,7 +46,7 @@ const onListening = () => {
   debug("Listening on " + bind);
 };
 
-const port = normalizePort(process.env.PORT || "3000");
+const port = normalizePort(process.env.PORT || "3010");
 app.set("port", port);
 
 const server = http.createServer(app);
@@ -55,10 +55,10 @@ server.on("listening", onListening);
 
 //Connect to ElcartonaShopping Database through mongoose Library
 //mongodb+srv://amr_omar_dev:I7JAiSvMXNBH2yQE@cluster0-j11bs.mongodb.net/elcartona?retryWrites=true
-mongoose.connect('mongodb://localhost/ElcartonaShopping',{
+mongoose.connect('mongodb+srv://amr_omar_dev:I7JAiSvMXNBH2yQE@cluster0-j11bs.mongodb.net/elcartona?retryWrites=true',{
   useNewUrlParser: true })
   .then(() => {
-    console.log('Connected to MongoDB...');
+    console.log('Connected to MongoDB...on port 3010');
     server.listen(port);
   })
   .catch(err => console.error('Could not connect to MongoDB...'));

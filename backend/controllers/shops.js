@@ -2,14 +2,14 @@ const { Shop, validate } = require('../models/shop');
 
 
 exports.getShops = (req, res, next) => {
-    Shop.find({title: "shop1"}).then((shops)=>{
+    Shop.find().then((shops)=>{
         res.status(200).json({
             message: "All clients retrieved successfully",
             shops: shops
         })
     }).catch(err => res.status(422).json(err.message));
 }
-exports.getShopsArea=(req, res, next) => {
+exports.getShopsAtSpecificArea=(req, res, next) => {
     Shop.find({city:'القاهرة',area:'القاهرة'}).then((shops)=>{
         res.status(200).json({
             message: "All clients retrieved successfully",
