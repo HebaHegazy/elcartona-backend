@@ -54,7 +54,9 @@ server.on("error", onError);
 server.on("listening", onListening);
 
 //Connect to ElcartonaShopping Database through mongoose Library
-mongoose.connect('mongodb+srv://amr_omar_dev:I7JAiSvMXNBH2yQE@cluster0-j11bs.mongodb.net/elcartona?retryWrites=true')
+//mongodb+srv://amr_omar_dev:I7JAiSvMXNBH2yQE@cluster0-j11bs.mongodb.net/elcartona?retryWrites=true
+mongoose.connect('mongodb://localhost/ElcartonaShopping',{
+  useNewUrlParser: true })
   .then(() => {
     console.log('Connected to MongoDB...');
     server.listen(port);

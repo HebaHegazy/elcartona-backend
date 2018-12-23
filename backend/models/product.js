@@ -10,20 +10,27 @@ const Product = mongoose.model('Product', new mongoose.Schema({
     type: Number,
     required: true,
   },
-  imgURL:{
+  imgUrl:{
     type: String,
     required: true, 
+  },
+  category:{
+    type:String,
+    enum:['البان', 'حلويات','منتجات غازية'],
+    required:true,
+    trim:true
   }
 }));
 
-function validateProduct(client) {
+function validateProduct(product) {
     const schema = {
       title: Joi.string().required(),
       price: Joi.number().required(),
-      imgURL:Joi.string().required
+      imgUrl:Joi.string().required(),
+      category:Joi.string().required()
     };
   
-    return Joi.validate(client, schema);
+    return Joi.validate(product, schema);
   }
   
   exports.Product = Product; 
