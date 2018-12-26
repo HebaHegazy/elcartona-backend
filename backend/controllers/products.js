@@ -36,7 +36,9 @@ exports.postProduct = (req, res) => {
     title: req.body.title,
     price: req.body.price,
     imgUrl: req.body.imgUrl,
-    category: req.body.category
+    barCode: req.body.barCode,
+    category: req.body.category,
+    userId: req.body.userId
   });
 
   product
@@ -60,7 +62,9 @@ exports.updateProduct = (req, res, next) => {
       title: req.body.title,
       price: req.body.price,
       imgUrl: req.body.imgUrl,
-      category: req.body.category
+      barCode: req.body.barCode,
+      category: req.body.category,
+      userId: req.body.userId
     },
     { new: true }
   ) ////{new: true} means ---- const Client is the updated one....

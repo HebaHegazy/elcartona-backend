@@ -1,37 +1,37 @@
-const { Client, validate } = require("../models/client");
+const { User, validate } = require("../models/user");
 
-exports.getClients = (req, res) => {
-  Client.find()
+exports.getUsers = (req, res) => {
+  User.find()
     .select("-__v")
-    .then(clients => {
+    .then(users => {
       res.status(200).json({
-        message: "All clients retrieved successfully",
-        clients: clients
+        message: "All users retrieved successfully",
+        users: users
       });
     })
     .catch(err => res.status(400).json(err.message));
 };
-exports.getClient = (req, res) => {
-  Client.findById(req.params.id)
+exports.getUser = (req, res) => {
+  User.findById(req.params.id)
     .select("-__v")
-    .then(client => {
-      if (!client)
+    .then(user => {
+      if (!user)
         return res
           .status(404)
-          .send("The client with the given ID was not found.");
+          .send("The user with the given ID was not found.");
       res.status(200).json({
-        message: "a client is retrieved successfully",
-        client: client
+        message: "a user is retrieved successfully",
+        user: user
       });
     })
     .catch(err => res.status(400).json(err.message));
 };
 
-exports.postClient = (req, res) => {
+exports.postUser = (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(422).send(error.details[0].message);
 
-  let client = new Client({
+  let user = new User({
     fullName: {
       firstName: req.body.fullName.firstName,
       lastName: req.body.fullName.lastName
@@ -43,24 +43,26 @@ exports.postClient = (req, res) => {
     phone: req.body.phone,
     email: req.body.email,
     password: req.body.password,
+    userRole: req.body.userRole,
     cart: req.body.cart
   });
-  client
+
+  user
     .save()
-    .then(client => {
+    .then(user => {
       res.status(201).json({
-        message: "a client is posted successfully",
-        client: client
+        message: "a user is posted successfully",
+        user: user
       });
     })
     .catch(err => res.status(400).json(err.message));
 };
 
-exports.updateClient = (req, res) => {
+exports.updateUser = (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(422).send(error.details[0].message);
 
-  Client.findOneAndUpdate(
+  User.findOneAndUpdate(
     req.params.id,
     {
       fullName: {
@@ -74,37 +76,38 @@ exports.updateClient = (req, res) => {
       phone: req.body.phone,
       email: req.body.email,
       password: req.body.password,
+      userRole: req.body.userRole,
       cart: req.body.cart
     },
     { new: true }
-  ) ////{new: true} means ---- const Client is the updated one....
+  ) ////{new: true} means ---- const user is the updated one....
     .select("-__v")
-    .then(client => {
-      if (!client)
+    .then(user => {
+      if (!user)
         return res
           .status(404)
-          .send("The client with the given ID was not found.");
+          .send("The user with the given ID was not found.");
 
       res.status(200).json({
-        message: "a client is updated successfully",
-        client: client
+        message: "a user is updated successfully",
+        user: user
       });
     })
     .catch(err => res.status(400).json(err.message));
 };
 
-exports.deleteClient = (req, res) => {
-  Client.findOneAndDelete(req.params.id)
+exports.deleteUser = (req, res) => {
+  User.findOneAndDelete(req.params.id)
     .select("-__v")
-    .then(client => {
-      if (!client)
+    .then(user => {
+      if (!user)
         return res
           .status(404)
-          .send("The client with the given ID was not found.");
+          .send("The user with the given ID was not found.");
 
       res.status(200).json({
-        message: "a client is deleted successfully",
-        client: client
+        message: "a user is deleted successfully",
+        user: user
       });
     })
     .catch(err => res.status(400).json(err.message));
